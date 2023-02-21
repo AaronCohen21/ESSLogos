@@ -1,0 +1,50 @@
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: white;
+    font-size: 27pt;
+    border-color: rgba(0,0,0,0);
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 18pt;
+}
+
+button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 24pt;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    background-color: darkorange;
+    border-color: rgba(0,0,0,0);
+    border-radius: 5px;
+}
+
+button:active {
+    background-color: rgb(207, 114, 0);
+}
+
+select {
+    border-radius: 5px;
+}
+
+#title {
+    background-color: darkorange;
+    padding: 5px;
+    position: relative;
+    border-radius: 10px;
+}
+
+#content {
+    border-radius: 10px;
+    padding: 35px;
+    position: relative;
+    display: flex;
+    background-color: rgb(228, 228, 228);
+}
