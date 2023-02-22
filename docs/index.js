@@ -21,7 +21,7 @@ logos.forEach(logo => {
 //add functionality to display pane
 logos_box.addEventListener('change', (event) => {
     const img = document.getElementById('svg_image');
-    img.setAttribute('src', `/svg/${logos_box.value.toLowerCase()}.svg`)
+    img.src = `svg/${logos_box.value.toLowerCase()}.svg`;
 });
 
 //swap content layout direction if needed (or if on mobile)
