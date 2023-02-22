@@ -1,5 +1,21 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "sharp": "^0.31.3"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "esslogos",
+  "version": "1.0.0",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
