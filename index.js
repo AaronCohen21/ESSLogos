@@ -11,29 +11,62 @@ window.mobileCheck = function() {
 };
 
 //populate logos box
+const logos_box = document.getElementById('logos_box');
 const logos = ["SENG", "BME", "CIVIL", "COMP", "ELEC", "MECH"];
 logos.forEach(logo => {
-    const logos_box = document.getElementById('logos_box');
     const option = new Option(logo);
     logos_box.appendChild(option);
 });
 
-//swap content layout direction if needed
+//add functionality to display pane
+logos_box.addEventListener('change', (event) => {
+    const img = document.getElementById('svg_image');
+    img.setAttribute('src', `/svg/${logos_box.value.toLowerCase()}.svg`)
+});
+
+//swap content layout direction if needed (or if on mobile)
 const adjustLayout = (event) => {
+    //make sure the image preview page is always a square
+    const img = document.getElementById('svg_image');
+    img.style.height = `${img.parentNode.offsetWidth}px`;
+
+    //other things to keep track of
     const content = document.getElementById("content");
     const options = document.getElementById("img_options");
     const output = document.getElementById("img_output");
+    const signature = document.getElementById("signature");
 
     if (window.innerWidth <= 700 || mobileCheck()) {
         content.style.flexDirection = 'column';
         options.style.width = '100%';
         output.style.width = '100%';
+        //signature wrapping
+        signature.style.position = 'relative';
+        signature.style.marginTop = '20px';
+        signature.style.marginBottom = '20px';
     } else {
         content.style.flexDirection = 'row';
         options.style.width = '50%';
         output.style.width = '50%';
+        //signature wrapping
+        signature.style.position = 'absolute';
+        signature.style.marginTop = '0px';
+        signature.style.marginBottom = '0px';
     }
 };
 addEventListener("resize", adjustLayout);
 //call the function one more time incase the page is loaded on mobile
 adjustLayout();
+
+//when the color is changed update the svg
+const color_picker = document.getElementById('color_picker');
+const update_color = (event) => {
+    const imgs = document.getElementById('svg_image').getSVGDocument().querySelectorAll('svg');
+    imgs.forEach((img) => {
+        img.setAttribute('fill', color_picker.value);
+        img.setAttribute('stroke', color_picker.value);
+    });
+}
+
+color_picker.addEventListener('change', update_color);
+document.getElementById('svg_image').addEventListener('load', update_color);
