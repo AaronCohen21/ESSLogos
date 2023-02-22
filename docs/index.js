@@ -88,7 +88,11 @@ document.getElementById('download_button').addEventListener('click', async (even
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({xml: xmlString})
+        body: JSON.stringify({
+            xml: xmlString,
+            logo: logos_box.value,
+            color: color_picker.value
+        })
     });
     //recieve the file and download it
     respone.blob().then(contents => {
