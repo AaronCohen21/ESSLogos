@@ -90,8 +90,14 @@ document.getElementById('download_button').addEventListener('click', async (even
         },
         body: JSON.stringify({xml: xmlString})
     });
-    //recieve the response buffer and convert it to png
-    console.log(respone.json());
-    const buf = Buffer.from(respone.json().data);
-    console.log(buf);
+    //recieve the file and download it
+    respone.blob().then(contents => {
+        //prepare the file to be downloaded
+        const png = window.URL.createObjectURL(contents);
+        const downloader = document.createElement('a');
+        downloader.href = png;
+        //set the file name and download
+        downloader.download = '' + logos_box.value + color_picker.value;
+        downloader.click();
+    });
 });
