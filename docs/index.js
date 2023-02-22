@@ -1,5 +1,3 @@
-//const sharp = require('sharp');
-
 /* Mobile Check Function:
  *
  * source: https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
@@ -70,3 +68,9 @@ const update_color = (event) => {
 
 color_picker.addEventListener('change', update_color);
 document.getElementById('svg_image').addEventListener('load', update_color);
+
+//hack to make sure that the iframe is alwyas square
+document.getElementById("svg_image").onload = () => {
+    const img = document.getElementById('svg_image');
+    img.style.height = `${img.parentNode.offsetWidth}px`;
+};

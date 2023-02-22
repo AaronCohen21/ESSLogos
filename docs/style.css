@@ -37,6 +37,10 @@ select {
     font-size: 12pt;
 }
 
+iframe {
+    border-color: rgba(0,0,0,0);
+}
+
 #title {
     background-color: darkorange;
     padding: 5px;
