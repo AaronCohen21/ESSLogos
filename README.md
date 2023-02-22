@@ -11,8 +11,9 @@ This is a fullstack application I created for the UVic ESS to quickly create cus
 - [x] Create `node.js` REST API to handle post requests
 - [x] Process `.svg` images into `.png` images via `node.js`
 - [x] Send `.png` images back to the client and download the file
-- [ ] Delete files in backend to save space
-- [ ] Allow for multiple files to be created at once (and then deleted)
+- [x] Delete files in backend to save space
+- [x] Allow for multiple files to be created at once (and then deleted)
+- [ ] Handle get requests for server info
 - [ ] Publish backed to Cyclic
 - [ ] Celebrate! 🎉🍾🥳
 
