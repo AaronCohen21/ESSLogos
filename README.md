@@ -14,6 +14,7 @@ This is a fullstack application I created for the UVic ESS to quickly create cus
 - [x] Delete files in backend to save space
 - [x] Allow for multiple files to be created at once (and then deleted)
 - [ ] Handle get requests for server info
+- [ ] Store server stats on backend
 - [ ] Publish backed to Cyclic
 - [ ] Celebrate! 🎉🍾🥳
 
