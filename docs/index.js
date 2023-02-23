@@ -1,4 +1,4 @@
-const APIURL = 'http://localhost:3000'
+const APIURL = 'https://ess-logos.cyclic.app'
 
 /* Mobile Check Function:
  *

@@ -1,5 +1,5 @@
-![Server Status](https://img.shields.io/endpoint?label=Server%20Status&url=https%3A%2F%2Fess-logos.cyclic.app%2Fstatus)
-![Images Rendered](https://img.shields.io/endpoint?label=Images%20Rendered&url=https%3A%2F%2Fess-logos.cyclic.app%2Frendered)
+[![Server Status](https://img.shields.io/endpoint?label=Server%20Status&url=https%3A%2F%2Fess-logos.cyclic.app%2Fstatus)](https://aaroncohen21.github.io/ESSLogos/)
+[![Images Rendered](https://img.shields.io/endpoint?label=Images%20Rendered&url=https%3A%2F%2Fess-logos.cyclic.app%2Frendered)](https://aaroncohen21.github.io/ESSLogos/)
 # ESS Logo Generator
 
 This is a fullstack application I created for the UVic ESS to quickly create custom logos for graphics or posters.
@@ -34,6 +34,6 @@ and replace `'app'` with `'httpsServer'` on `line 108`
 - [x] Handle get requests for server info
 - [x] Store server stats on backend
 - [x] Publish backed to Cyclic
-- [ ] Find a way to write on Cyclic backend (MongoDB?)
+- [ ] Find a way to write on Cyclic backend (DynamoDB?)
 - [x] Link server stats to shields.io badges
 - [ ] Celebrate! 🎉🍾🥳
