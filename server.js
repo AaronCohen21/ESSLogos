@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-const serverStats = {
+let serverStats = {
     imagesRendered: 0
 };
 
@@ -33,7 +33,7 @@ app.post('/', async (req, res) => {
         //now create the file immediately to 'reserve the filename'
         fs.writeFileSync(path.resolve(`tmp/${fileString()}.png`), 'filename reserved');
     } catch (err) {
-        console.log("Error checking files:\n" + err);
+        console.error("Error checking files:\n" + err);
     }
 
     //parse xml into png file and send it
@@ -43,7 +43,7 @@ app.post('/', async (req, res) => {
         if (err && res.headersSent) {
             //error sending the file
             res.status(500).end();
-            console.log("An error has occurred sending the file:\n" + err);
+            console.error("An error has occurred sending the file:\n" + err);
         } else {
             //file sent successfully
             res.status(200).end();
@@ -54,7 +54,7 @@ app.post('/', async (req, res) => {
                     fs.rmSync(path.resolve(`tmp/${fileString()}.png`));
                 }
             } catch (err) {
-                console.log("Error: cannot remove file:\n" + err);
+                console.error("Error: cannot remove file:\n" + err);
             }
             //now that the file has been removed, log a successful completion
             console.log(`[${dateString(new Date())}] - successfully fulfilled request: ${req.body.logo}${req.body.color} (${dateString(startDate)})`);
@@ -94,6 +94,9 @@ const httpsServer = https.createServer({
 
 httpsServer.listen(3000, () => {
     try {
+        //load serverStats from JSON file if it exists
+        if (fs.existsSync(path.resolve('serverstats.json')))
+            serverStats = JSON.parse(fs.readFileSync(path.resolve('serverstats.json')));
         //ensure tmp directory is valid, if not create a new one
         if (!fs.existsSync(path.resolve('tmp'))) {
             fs.mkdirSync(path.resolve('tmp'));
@@ -104,7 +107,7 @@ httpsServer.listen(3000, () => {
             console.warn("Warning: /tmp directory should be empty");
         }        
     } catch (err) {
-        console.log("Error: cannot access FileSystem:\n" + err);
+        console.error("Error: cannot access FileSystem:\n" + err);
         return;
     } 
     //TODO: load proper number of imagesRendered
@@ -113,6 +116,11 @@ httpsServer.listen(3000, () => {
     console.log('Server Listening on port 3000');
 });
 
-
-
-//TODO: make method that runs on server shutdown to save all important stats (imagesRendered)
+//on server shutdown save all important stats
+process.on('exit', () => {
+    try {
+        fs.writeFileSync(path.resolve('serverstats.json'), JSON.stringify(serverStats));
+    } catch (err) {
+        console.error('Error: cannot save server stats:\n' + err);
+    }
+});
