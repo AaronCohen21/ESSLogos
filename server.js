@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+require('dotenv').config()
 
 //setup
 const app = express();
@@ -88,11 +89,11 @@ app.get('/rendered', (req, res) => {
 
 //start https server
 const httpsServer = https.createServer({
-    key: fs.readFileSync(path.resolve('certificates/key.pem')),
-    cert: fs.readFileSync(path.resolve('certificates/cert.pem'))
+    key: process.env.SSL_KEY,
+    cert: process.env.SSL_CERT
 }, app);
 
-httpsServer.listen(3000, () => {
+httpsServer.listen(process.env.PORT, () => {
     try {
         //load serverStats from JSON file if it exists
         if (fs.existsSync(path.resolve('serverstats.json')))
@@ -109,11 +110,10 @@ httpsServer.listen(3000, () => {
     } catch (err) {
         console.error("Error: cannot access FileSystem:\n" + err);
         return;
-    } 
-    //TODO: load proper number of imagesRendered
+    }
 
     //log that the server has started
-    console.log('Server Listening on port 3000');
+    console.log('Server Listening on port ' + process.env.PORT);
 });
 
 //on server shutdown save all important stats

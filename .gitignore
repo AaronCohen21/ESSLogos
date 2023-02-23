@@ -2,3 +2,4 @@ node_modules/
 tmp/
 certificates/
 serverstats.json
+*.env
