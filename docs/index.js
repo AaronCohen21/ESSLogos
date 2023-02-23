@@ -1,4 +1,4 @@
-const APIURL = 'https://localhost:3000'
+const APIURL = 'http://localhost:3000'
 
 /* Mobile Check Function:
  *

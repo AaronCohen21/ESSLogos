@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
+//const https = require('https');
 require('dotenv').config()
 
 //setup
@@ -80,7 +80,7 @@ app.get('/rendered', (req, res) => {
     const data = {
         "schemaVersion": 1,
         "label": "Images Rendered",
-        "message": serverStats.imagesRendered,
+        "message": serverStats.imagesRendered.toString(),
         "color": "9cf"
     }
     res.json(data);
@@ -88,12 +88,25 @@ app.get('/rendered', (req, res) => {
 });
 
 //start https server
-const httpsServer = https.createServer({
-    key: process.env.SSL_KEY,
-    cert: process.env.SSL_CERT
-}, app);
+// const httpsServer = https.createServer({
+//     key: process.env.SSL_KEY,
+//     cert: process.env.SSL_CERT
+// }, app);
 
-httpsServer.listen(process.env.PORT, () => {
+/*
+ * NOTE:
+ * 
+ * Cyclic automatically hosts with HTTPS, so the
+ * deployment does not need to manually host with HTTPS
+ * 
+ * However if being hosted manually, it may be
+ * neccesarry to set up an HTTPS server. If this is
+ * required, uncomment line 8 and the above code on lines 91-94,
+ * and replace 'app' with 'httpsServer' on line 108
+ * 
+*/
+
+app.listen(process.env.PORT, () => {
     try {
         //load serverStats from JSON file if it exists
         if (fs.existsSync(path.resolve('serverstats.json')))

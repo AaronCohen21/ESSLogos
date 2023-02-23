@@ -1,6 +1,24 @@
+![Server Status](https://img.shields.io/endpoint?label=Server%20Status&url=https%3A%2F%2Fess-logos.cyclic.app%2Fstatus)
+![Images Rendered](https://img.shields.io/endpoint?label=Images%20Rendered&url=https%3A%2F%2Fess-logos.cyclic.app%2Frendered)
 # ESS Logo Generator
 
 This is a fullstack application I created for the UVic ESS to quickly create custom logos for graphics or posters.
+
+# Note
+
+## SVG Files
+
+All `.svg` assets should only contain fill. If any svg contains a stroke for whatever reason, its color will not update.
+
+## HTTPS Hosting
+
+Cyclic automatically hosts with HTTPS, so the
+deployment does not need to manually host with HTTPS
+
+However if being hosted manually, it may be
+neccesarry to set up an HTTPS server. If this is
+required, uncomment `line 8` and the code on `lines 91-94` in `server.js`,
+and replace `'app'` with `'httpsServer'` on `line 108`
 
 # //TODO:
 - [x] Create dynamic front end
@@ -15,10 +33,7 @@ This is a fullstack application I created for the UVic ESS to quickly create cus
 - [x] Allow for multiple files to be created at once (and then deleted)
 - [x] Handle get requests for server info
 - [x] Store server stats on backend
-- [ ] Publish backed to Cyclic
-- [ ] Link server stats to shields.io badges
+- [x] Publish backed to Cyclic
+- [ ] Find a way to write on Cyclic backend (MongoDB?)
+- [x] Link server stats to shields.io badges
 - [ ] Celebrate! 🎉🍾🥳
-
-# Note
-
-All `.svg` assets should only contain fill. If any svg contains a stroke for whatever reason, its color will not update.
