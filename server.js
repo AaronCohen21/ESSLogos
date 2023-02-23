@@ -93,19 +93,20 @@ const httpsServer = https.createServer({
 }, app);
 
 httpsServer.listen(3000, () => {
-    //ensure tmp directory is valid, if not create a new one
     try {
+        //ensure tmp directory is valid, if not create a new one
         if (!fs.existsSync(path.resolve('tmp'))) {
             fs.mkdirSync(path.resolve('tmp'));
             console.log('Created tmp directory');
         }
+        //check if there are files in the tmp directory and log a warning if there are
+        if (fs.readdirSync(path.resolve('tmp')).length !== 0) {  //falsy if empty
+            console.warn("Warning: /tmp directory should be empty");
+        }        
     } catch (err) {
-        console.log("Error: cannot make /tmp directoryn:\n" + err);
+        console.log("Error: cannot access FileSystem:\n" + err);
         return;
-    }
-
-    //TODO: check if there are files in the tmp directory and log a warning if there are 
-
+    } 
     //TODO: load proper number of imagesRendered
 
     //log that the server has started
