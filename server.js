@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-const { setMaxIdleHTTPParsers } = require('http');
+const https = require('https');
 
 //setup
 const app = express();
@@ -26,10 +26,10 @@ app.post('/', async (req, res) => {
 
     //resolve file path
     let fileIteration = 0;  //updated if a file already exists (ex. "logo (1).png")
-    const fileString = () => dateString(startDate).replaceAll('/','-') + (fileIteration !== 0 ? ` (${fileIteration})` : '');
+    const fileString = () => dateString(startDate).replaceAll('/', '-') + (fileIteration !== 0 ? ` (${fileIteration})` : '');
     try {
         //update iteration until the filename doesn't exist
-        while(fs.existsSync(path.resolve(`tmp/${fileString()}.png`))) fileIteration++;
+        while (fs.existsSync(path.resolve(`tmp/${fileString()}.png`))) fileIteration++;
         //now create the file immediately to 'reserve the filename'
         fs.writeFileSync(path.resolve(`tmp/${fileString()}.png`), 'filename reserved');
     } catch (err) {
@@ -62,18 +62,37 @@ app.post('/', async (req, res) => {
     });
 });
 
-//TODO: impliment this
+//endpoint for status shield
 app.get('/status', (req, res) => {
     const data = {
-        status: 'online',
-        imagesRendered: serverStats.imagesRendered
+        "schemaVersion": 1,
+        "label": "Server Status",
+        "message": "online",
+        "color": "green"
     }
-    res.send(JSON.stringify(data));
+    res.json(data);
     res.status(200).end();
 });
 
-//start server
-app.listen(3000, () => {
+//endpoint for images rendered shield
+app.get('/rendered', (req, res) => {
+    const data = {
+        "schemaVersion": 1,
+        "label": "Images Rendered",
+        "message": serverStats.imagesRendered,
+        "color": "9cf"
+    }
+    res.json(data);
+    res.status(200).end();
+});
+
+//start https server
+const httpsServer = https.createServer({
+    key: fs.readFileSync(path.resolve('certificates/key.pem')),
+    cert: fs.readFileSync(path.resolve('certificates/cert.pem'))
+}, app);
+
+httpsServer.listen(3000, () => {
     //ensure tmp directory is valid, if not create a new one
     try {
         if (!fs.existsSync(path.resolve('tmp'))) {
@@ -86,11 +105,13 @@ app.listen(3000, () => {
     }
 
     //TODO: check if there are files in the tmp directory and log a warning if there are 
-    
+
     //TODO: load proper number of imagesRendered
 
     //log that the server has started
     console.log('Server Listening on port 3000');
 });
+
+
 
 //TODO: make method that runs on server shutdown to save all important stats (imagesRendered)

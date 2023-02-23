@@ -13,9 +13,10 @@ This is a fullstack application I created for the UVic ESS to quickly create cus
 - [x] Send `.png` images back to the client and download the file
 - [x] Delete files in backend to save space
 - [x] Allow for multiple files to be created at once (and then deleted)
-- [ ] Handle get requests for server info
+- [x] Handle get requests for server info
 - [ ] Store server stats on backend
 - [ ] Publish backed to Cyclic
+- [ ] Link server stats to shields.io badges
 - [ ] Celebrate! 🎉🍾🥳
 
 # Note

@@ -1,4 +1,4 @@
-const APIURL = 'http://localhost:3000'
+const APIURL = 'https://localhost:3000'
 
 /* Mobile Check Function:
  *
@@ -34,24 +34,27 @@ const adjustLayout = (event) => {
     const content = document.getElementById("content");
     const options = document.getElementById("img_options");
     const output = document.getElementById("img_output");
-    const signature = document.getElementById("signature");
+    const info = document.getElementById("info");
+
+    //setup
+    info.style.width = `${document.getElementById("logos_box").offsetWidth}px`;
 
     if (window.innerWidth <= 700 || mobileCheck()) {
         content.style.flexDirection = 'column';
         options.style.width = '100%';
         output.style.width = '100%';
-        //signature wrapping
-        signature.style.position = 'relative';
-        signature.style.marginTop = '20px';
-        signature.style.marginBottom = '20px';
+        //info wrapping
+        info.style.position = 'relative';
+        info.style.marginTop = '20px';
+        info.style.marginBottom = '20px';
     } else {
         content.style.flexDirection = 'row';
         options.style.width = '50%';
         output.style.width = '50%';
-        //signature wrapping
-        signature.style.position = 'absolute';
-        signature.style.marginTop = '0px';
-        signature.style.marginBottom = '0px';
+        //info wrapping
+        info.style.position = 'absolute';
+        info.style.marginTop = '0px';
+        info.style.marginBottom = '0px';
     }
 };
 addEventListener("resize", adjustLayout);
@@ -83,25 +86,42 @@ document.getElementById('download_button').addEventListener('click', async (even
     const serealizer = new XMLSerializer();
     const xmlString = serealizer.serializeToString(document.getElementById('svg_image').getSVGDocument().querySelector('svg'));
     //now send that string to the REST API
-    const respone = await fetch(APIURL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            xml: xmlString,
-            logo: logos_box.value,
-            color: color_picker.value
-        })
-    });
-    //recieve the file and download it
-    respone.blob().then(contents => {
-        //prepare the file to be downloaded
-        const png = window.URL.createObjectURL(contents);
-        const downloader = document.createElement('a');
-        downloader.href = png;
-        //set the file name and download
-        downloader.download = '' + logos_box.value + color_picker.value;
-        downloader.click();
-    });
+    try {
+        const respone = await fetch(APIURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                xml: xmlString,
+                logo: logos_box.value,
+                color: color_picker.value
+            })
+        });
+        //recieve the file and download it
+        respone.blob().then(contents => {
+            //prepare the file to be downloaded
+            const png = window.URL.createObjectURL(contents);
+            const downloader = document.createElement('a');
+            downloader.href = png;
+            //set the file name and download
+            downloader.download = '' + logos_box.value + color_picker.value;
+            downloader.click();
+        });
+    } catch (err) {} finally {
+        //update displayed server stats
+        updateStats();
+    }
 });
+
+//serverStats
+async function updateStats() {
+    let status = 'offline';
+    let rendered = 'N/A';
+    try {
+        status = (await (await fetch(APIURL + '/status', { method: 'GET' })).json()).message;
+        rendered = (await (await fetch(APIURL + '/rendered', { method: 'GET' })).json()).message;
+    } catch (err) { }
+    document.getElementById('serverStats').innerHTML = `Server Status: ${status} | Images Rendered: ${rendered}`;
+}
+updateStats();
