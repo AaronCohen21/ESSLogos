@@ -18,6 +18,12 @@ let serverStats = {
 };
 
 //handling requests
+
+//if a user tries to go to the backend, redirect their browser to the front end
+app.get('/', (req, res) => {
+    res.redirect("https://aaroncohen21.github.io/ESSLogos/");
+});
+
 //req should contain the svg to be processed
 app.post('/', async (req, res) => {
     //create date string and log request to server
@@ -25,42 +31,15 @@ app.post('/', async (req, res) => {
     const dateString = (date) => `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()} - ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`
     console.log(`[${dateString(startDate)}] - recieved new request: ${req.body.logo}${req.body.color}`);
 
-    //resolve file path
-    let fileIteration = 0;  //updated if a file already exists (ex. "logo (1).png")
-    const fileString = () => dateString(startDate).replaceAll('/', '-') + (fileIteration !== 0 ? ` (${fileIteration})` : '');
-    try {
-        //update iteration until the filename doesn't exist
-        while (fs.existsSync(path.resolve(`tmp/${fileString()}.png`))) fileIteration++;
-        //now create the file immediately to 'reserve the filename'
-        fs.writeFileSync(path.resolve(`tmp/${fileString()}.png`), 'filename reserved');
-    } catch (err) {
-        console.error("Error checking files:\n" + err);
-    }
-
     //parse xml into png file and send it
     const xml = req.body.xml;
-    await sharp(Buffer.from(xml)).png().toFile(`tmp/${fileString()}.png`);
-    res.download(path.resolve(`tmp/${fileString()}.png`), (err) => {
-        if (err && res.headersSent) {
-            //error sending the file
-            res.status(500).end();
-            console.error("An error has occurred sending the file:\n" + err);
-        } else {
-            //file sent successfully
-            res.status(200).end();
-            serverStats.imagesRendered++;
-            //dispose of the file to save disk space
-            try {
-                if (fs.existsSync(path.resolve(`tmp/${fileString()}.png`))) {
-                    fs.rmSync(path.resolve(`tmp/${fileString()}.png`));
-                }
-            } catch (err) {
-                console.error("Error: cannot remove file:\n" + err);
-            }
-            //now that the file has been removed, log a successful completion
-            console.log(`[${dateString(new Date())}] - successfully fulfilled request: ${req.body.logo}${req.body.color} (${dateString(startDate)})`);
-        }
-    });
+    const buf = (await sharp(Buffer.from(xml)).png().toBuffer({resolveWithObject: true})).data;
+    res.send(buf);
+    res.status(200).end()
+
+    //log successful completion
+    console.log(`[${dateString(new Date())}] - successfully fulfilled request: ${req.body.logo}${req.body.color} (${dateString(startDate)})`);
+    serverStats.imagesRendered++;
 });
 
 //endpoint for status shield
@@ -110,19 +89,9 @@ app.listen(process.env.PORT, () => {
     try {
         //load serverStats from JSON file if it exists
         if (fs.existsSync(path.resolve('serverstats.json')))
-            serverStats = JSON.parse(fs.readFileSync(path.resolve('serverstats.json')));
-        //ensure tmp directory is valid, if not create a new one
-        if (!fs.existsSync(path.resolve('tmp'))) {
-            fs.mkdirSync(path.resolve('tmp'));
-            console.log('Created tmp directory');
-        }
-        //check if there are files in the tmp directory and log a warning if there are
-        if (fs.readdirSync(path.resolve('tmp')).length !== 0) {  //falsy if empty
-            console.warn("Warning: /tmp directory should be empty");
-        }        
+            serverStats = JSON.parse(fs.readFileSync(path.resolve('serverstats.json')));        
     } catch (err) {
         console.error("Error: cannot access FileSystem:\n" + err);
-        return;
     }
 
     //log that the server has started

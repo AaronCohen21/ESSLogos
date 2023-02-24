@@ -1,4 +1,4 @@
-const APIURL = 'https://ess-logos.cyclic.app'
+const APIURL = 'https://ess-logos.cyclic.app';
 
 /* Mobile Check Function:
  *
@@ -99,29 +99,15 @@ document.getElementById('download_button').addEventListener('click', async (even
             })
         });
         //recieve the file and download it
-        respone.blob().then(contents => {
+        respone.blob().then(blob => {
             //prepare the file to be downloaded
-            const png = window.URL.createObjectURL(contents);
+            blob.type = 'image/png';
+            const png = window.URL.createObjectURL(blob);
             const downloader = document.createElement('a');
             downloader.href = png;
             //set the file name and download
-            downloader.download = '' + logos_box.value + color_picker.value;
+            downloader.download = '' + logos_box.value + color_picker.value + '.png';
             downloader.click();
         });
-    } catch (err) {} finally {
-        //update displayed server stats
-        updateStats();
-    }
+    } catch (err) {}
 });
-
-//serverStats
-async function updateStats() {
-    let status = 'offline';
-    let rendered = 'N/A';
-    try {
-        status = (await (await fetch(APIURL + '/status', { method: 'GET' })).json()).message;
-        rendered = (await (await fetch(APIURL + '/rendered', { method: 'GET' })).json()).message;
-    } catch (err) { }
-    document.getElementById('serverStats').innerHTML = `Server Status: ${status} | Images Rendered: ${rendered}`;
-}
-updateStats();
