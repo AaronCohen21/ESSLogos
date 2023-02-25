@@ -39,7 +39,7 @@ const adjustLayout = (event) => {
     //setup
     info.style.width = `${document.getElementById("logos_box").offsetWidth}px`;
 
-    if (window.innerWidth <= 700 || mobileCheck()) {
+    if (window.innerWidth <= 755 || mobileCheck()) {
         content.style.flexDirection = 'column';
         options.style.width = '100%';
         output.style.width = '100%';
@@ -60,6 +60,11 @@ const adjustLayout = (event) => {
 addEventListener("resize", adjustLayout);
 //call the function one more time incase the page is loaded on mobile
 adjustLayout();
+
+//add functionality to GitHub button
+document.getElementById("GitHub Badge").onclick= (event) => {
+    location.assign("https://github.com/AaronCohen21/ESSLogos");
+};
 
 //when the color is changed update the svg
 const color_picker = document.getElementById('color_picker');

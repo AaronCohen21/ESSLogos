@@ -35,6 +35,5 @@ and replace `'app'` with `'httpsServer'` on `line 108`
 - [x] Store server stats on backend
 - [x] Publish backed to Cyclic
 - [ ] Find a way to write serverstats on Cyclic backend (DynamoDB?)
-- [ ] Put link to GitHub repo on pages site
 - [x] Link server stats to shields.io badges
 - [x] Celebrate! 🎉🍾🥳
