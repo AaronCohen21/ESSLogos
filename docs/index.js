@@ -12,11 +12,13 @@ window.mobileCheck = function () {
 
 //populate logos box
 const logos_box = document.getElementById('logos_box');
-const logos = ["SENG", "BME", "CIVIL", "COMP", "ELEC", "MECH"];
+const logos = ["Old Logo", "Old Logo (UVIC)", "Viktor Viking", "SENG", "BME", "CIVIL", "COMP", "ELEC", "MECH"];
 logos.forEach(logo => {
     const option = new Option(logo);
     logos_box.appendChild(option);
 });
+//setup display to have first logo
+document.getElementById('svg_image').src = `svg/${logos[0].toLowerCase()}.svg`;
 
 //add functionality to display pane
 logos_box.addEventListener('change', (event) => {
