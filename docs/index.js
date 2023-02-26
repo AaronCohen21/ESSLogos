@@ -27,8 +27,8 @@ logos_box.addEventListener('change', (event) => {
 //swap content layout direction if needed (or if on mobile)
 const adjustLayout = (event) => {
     //make sure the image preview page is always a square
-    const img = document.getElementById('svg_image');
-    img.style.height = `${img.parentNode.offsetWidth}px`;
+    const img = document.getElementById('svg_image').parentElement;
+    img.style.height = `${img.offsetWidth}px`;
 
     //other things to keep track of
     const content = document.getElementById("content");

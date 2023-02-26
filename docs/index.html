@@ -14,25 +14,33 @@
     <div style="height: 20px;"></div>
 
     <div id="content" style="max-width: 75%; margin: auto;">
-        <div id="img_options" style="position: relative; width: 50%; padding-right: 10%; display: flex; flex-direction: column;">
+        <div id="img_options"
+            style="position: relative; width: 50%; padding-right: 10%; display: flex; flex-direction: column;">
             <h2 style="margin-top: 0px;">Logo:</h2>
             <select id="logos_box" style="width: 100%; max-width: 400px;"></select>
             <h2>Color:</h2>
             <input id="color_picker" type="color" style="width: 75px; height: 75px">
-            <div id="info" style="width: 100%; position: absolute; bottom: 0; margin: 0px; display: flex; flex-direction: column;">
+            <div id="info"
+                style="width: 100%; position: absolute; bottom: 0; margin: 0px; display: flex; flex-direction: column;">
                 <div id="repo">
-                    <img id="GitHub Badge" alt="GitHub Repo stars" style="height: 25px; cursor: pointer;" src="https://img.shields.io/github/stars/AaronCohen21/ESSLogos?label=Repo&style=social">
+                    <img id="GitHub Badge" alt="GitHub Repo stars" style="height: 25px; cursor: pointer;"
+                        src="https://img.shields.io/github/stars/AaronCohen21/ESSLogos?label=Repo&style=social">
                 </div>
                 <div id="stats">
-                    <img id="statusBadge" alt="Server Status" src="https://img.shields.io/endpoint?label=Server%20Status&url=https%3A%2F%2Fess-logos.cyclic.app%2Fstatus">
-                    <img id="renderedBadge" alt="Images Rendered" src="https://img.shields.io/endpoint?label=Images%20Rendered&url=https%3A%2F%2Fess-logos.cyclic.app%2Frendered">
+                    <img id="statusBadge" alt="Server Status"
+                        src="https://img.shields.io/endpoint?label=Server%20Status&url=https%3A%2F%2Fess-logos.cyclic.app%2Fstatus">
+                    <img id="renderedBadge" alt="Images Rendered"
+                        src="https://img.shields.io/endpoint?label=Images%20Rendered&url=https%3A%2F%2Fess-logos.cyclic.app%2Frendered">
                 </div>
                 <h2 id="signature" style="margin: 0px; margin-top: 10px;">Created By: Aaron Cohen</h2>
             </div>
         </div>
 
         <div id="img_output" style="display: flex; flex-direction: column; width: 50%;">
-            <iframe id="svg_image" src="svg/seng.svg" type="image/svg+xml" style="border-radius: 30px; background-color: white;"></iframe>
+            <div style="border-radius: 30px; background-color: white; display: flex; flex-direction: column;">
+                <iframe id="svg_image" src="svg/seng.svg" type="image/svg+xml"
+                    style="border: 0px; margin: 20%;"></iframe>
+            </div>
             <div style="height: 20px"></div>
             <button id="download_button">Download</button>
         </div>
