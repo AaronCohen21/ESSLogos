@@ -8,7 +8,8 @@ This is a fullstack application I created for the UVic ESS to quickly create cus
 
 ## SVG Files
 
-All `.svg` assets should only contain fill. If any svg contains a stroke for whatever reason, its color will not update.
+Files in `docs/svg/` should be named with all lowercase names or the website will not be able to locate the filepath.
+Also, all `.svg` assets should only contain fill. If any svg contains a stroke for whatever reason, its color will not update.
 
 ## HTTPS Hosting
 
@@ -37,3 +38,4 @@ and replace `'app'` with `'httpsServer'` on `line 108`
 - [ ] Find a way to write serverstats on Cyclic backend (DynamoDB?)
 - [x] Link server stats to shields.io badges
 - [x] Celebrate! 🎉🍾🥳
+- [ ] Add "image size" option for output
