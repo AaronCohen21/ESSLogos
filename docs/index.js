@@ -12,7 +12,7 @@ window.mobileCheck = function () {
 
 //populate logos box
 const logos_box = document.getElementById('logos_box');
-const logos = ["Old Logo", "Old Logo (UVIC)", "Viktor Viking", "SENG", "BME", "CIVIL", "COMP", "ELEC", "MECH"];
+const logos = ["ESS Logo", "Old Logo", "Old Logo (UVIC)", "Viking Cap", "Viktor Viking", "SENG", "BME", "CIVIL", "COMP", "ELEC", "MECH"];
 logos.forEach(logo => {
     const option = new Option(logo);
     logos_box.appendChild(option);
